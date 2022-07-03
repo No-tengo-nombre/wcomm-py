@@ -1,6 +1,6 @@
-from wcomm import VERBOSE_MODE
+from wcomm import WCOMM_CONFIG
 
 
 def log(message):
-    if VERBOSE_MODE:
+    if WCOMM_CONFIG["verbose"]:
         print(message)

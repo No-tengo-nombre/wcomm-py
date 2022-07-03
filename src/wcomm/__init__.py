@@ -4,5 +4,8 @@ WComm
 
 import os
 
-VERBOSE_MODE = True
+WCOMM_CONFIG = {
+    "verbose": False,
+}
+
 BASE_DIRNAME = os.path.dirname(__file__)
