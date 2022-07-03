@@ -33,9 +33,11 @@ class FSK256(Modulator):
         """Returns a matrix with 256 rows, each corresponding to a base
         function, and `num` columns, each corresponding to a data point.
         """
+        # This operation basically applies a DFT to the data, and chooses
+        # the row with the highest Fourier coefficient
         return np.array([
             np.cos(2 * np.pi * self.calculate_frequency(k) *
-                   self._sampling_frequency * np.arange(0, num))
+                   np.arange(0, num) / self._sampling_frequency)
             for k in range(256)
         ])
 
@@ -44,7 +46,8 @@ class FSK256(Modulator):
 
     def detect(self, data):
         """Returns the index, starting from zero, of the detected symbol."""
+        # For out of phase signals, this method throws good results as long
+        # as the number of points is sufficiently large
         return np.argmax(self.get_base_functions(len(data)) @ data)
-        # return self.get_base_functions(len(data)) @ data
 
     def listen(frequency): pass
