@@ -7,3 +7,6 @@ class Message:
 
     def __next__(self):
         return next(self.__iter__())
+
+    def __str__(self):
+        return self._data.__str__()
