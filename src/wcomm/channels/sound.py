@@ -1,4 +1,4 @@
-import winsound
+import sounddevice as sd
 from time import sleep
 from wcomm.channel import Channel
 from wcomm.utils.log import log
@@ -23,18 +23,29 @@ def set_sine_freq(freq):
 
 class SoundChannel(Channel):
     def __init__(self, modulator):
-        log(f"SETTING MODULATION -> {modulator.get_name()}")
+        log(f"INFO::SETTING MODULATION -> {modulator.get_name()}")
         self._modulator = modulator
+        self._mic_source = None
 
     def send(self, message, time=DEFAULT_SOUND_TIME):
-        log(f"SEND MESSAGE \"{message}\"")
+        log(f"INFO::SEND MESSAGE \"{message}\"")
         self._modulator.send_through_channel(self, message, time)
 
     def play(self, frequency, time=DEFAULT_SOUND_TIME):
-        log(f"PLAY {frequency} Hz , {time} ms\n")
-        # winsound.Beep(frequency, time)
+        log(f"INFO::PLAY {frequency} Hz , {time} ms\n")
         set_sine_freq(frequency)
         sleep(time / 1000)
+
+    def start_microphone(self, sample_rate=None, channels=1):
+        if sample_rate is None:
+            sr = self._modulator._sampling_frequency
+        else:
+            sr = sample_rate
+
+        log(f"INFO::STARTING MICROPHONE")
+        self._mic_source = sd.InputStream(sr, channels=channels)
+
+    def fetch_microphone(self): pass
 
     def listen(self, frequency):
         self._modulator.listen(frequency)

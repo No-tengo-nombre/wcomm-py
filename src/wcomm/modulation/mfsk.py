@@ -1,6 +1,5 @@
 from wcomm.modulation.modulation import Modulator
 from wcomm.utils.log import log
-import sounddevice as sd
 import numpy as np
 
 
@@ -26,7 +25,7 @@ class FSK256(Modulator):
 
     def send_through_channel(self, channel, message, time):
         for key in self.split(message):
-            log(f"SEND CHAR '{chr(key)}' = {key}")
+            log(f"INFO::SEND CHAR '{chr(key)}' = {key}")
             channel.play(self.calculate_frequency(key), time)
 
     def get_base_functions(self, num):
