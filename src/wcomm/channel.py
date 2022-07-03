@@ -9,3 +9,6 @@ class Channel(ABC):
 
     @abstractmethod
     def play(self, frequency, time): pass
+
+    @abstractmethod
+    def listen(self, frequency): pass
