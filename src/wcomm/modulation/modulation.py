@@ -15,3 +15,9 @@ class Modulator(ABC):
 
     @abstractmethod
     def calculate_frequency(self, key): pass
+
+    @abstractmethod
+    def detect(self, data, samp_freq): pass
+
+    @abstractmethod
+    def listen(frequency): pass
