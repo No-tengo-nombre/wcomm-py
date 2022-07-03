@@ -8,6 +8,7 @@ from pysinewave import SineWave
 DEFAULT_SOUND_TIME = 1000
 sine = None
 
+
 def set_sine_freq(freq):
     global sine
     if sine is None:
