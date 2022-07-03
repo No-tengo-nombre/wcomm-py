@@ -9,8 +9,9 @@ def main():
 
     message = Message("Hello world!")
 
-    channel.send(message, 1000)
-    channel.send('a', 2000)
+    channel.send(message, 10)
+    channel.send('a', 200)
+    channel.play(13100, 2000)
 
 
 if __name__ == "__main__":
