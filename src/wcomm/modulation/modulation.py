@@ -20,4 +20,4 @@ class Modulator(ABC):
     def detect(self, data, samp_freq): pass
 
     @abstractmethod
-    def listen(frequency): pass
+    def listen(self, frequency): pass

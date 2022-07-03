@@ -4,14 +4,14 @@ from wcomm.message import Message
 
 
 def main():
-    mod_type = FSK256()
+    mod_type = FSK256(100, 30)
     channel = SoundChannel(mod_type)
 
-    message = Message("Hello world!")
+    # message = Message("Hello world!")
+    message = Message("owowo")
 
-    channel.send(message, 10)
-    channel.send('a', 200)
-    channel.play(13100, 2000)
+    channel.send(message, 15)
+    channel.send("a", 100)
 
 
 if __name__ == "__main__":

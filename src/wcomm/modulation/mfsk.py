@@ -36,17 +36,19 @@ class FSK256(Modulator):
         # the row with the highest Fourier coefficient
         return np.array([
             np.cos(2 * np.pi * self.calculate_frequency(k) *
-                   np.arange(0, num) / self._sampling_frequency)
+                   np.arange(num) / self._sampling_frequency)
             for k in range(256)
         ])
 
     def calculate_frequency(self, key):
         return self._base_frequency + key * self._delta_frequency
 
-    def detect(self, data):
+    def detect(self, data, threshold):
         """Returns the index, starting from zero, of the detected symbol."""
         # For out of phase signals, this method throws good results as long
         # as the number of points is sufficiently large
-        return np.argmax(self.get_base_functions(len(data)) @ data)
+        candidate = np.argmax(self.get_base_functions(len(data)) @ data)
+        return candidate if candidate >= threshold else -1
+        # return np.argmax(self.get_base_functions(len(data)) @ data)
 
-    def listen(frequency): pass
+    def listen(self, frequency): pass
