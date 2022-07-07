@@ -3,6 +3,31 @@ import importlib
 from wcomm import WCOMM_CONFIG
 
 parser = argparse.ArgumentParser(description="Run the WComm package.")
+
+parser.add_argument(
+    "-E", "--emitter",
+    dest="emitter_filename",
+    help="Run the emitter application with the given configuration.",
+)
+
+parser.add_argument(
+    "-R", "--receiver",
+    dest="receiver_filename",
+    help="Run the receiver application with the given configuration.",
+)
+
+parser.add_argument(
+    "-m", "--modulation",
+    dest="modulation_type",
+    help="Specify the type of modulation used.",
+)
+
+parser.add_argument(
+    "-s", "--source-coding",
+    dest="source_coding_type",
+    help="Specify the type of source coding used.",
+)
+
 parser.add_argument(
     "-e", "--example",
     dest="example_name",
