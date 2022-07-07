@@ -6,7 +6,7 @@ import numpy as np
 FSK256_BASE_FREQUENCY = 300
 FSK256_DELTA_FREQUENCY = 50
 
-FSK16_BASE_FREQUENCY = 500
+FSK16_BASE_FREQUENCY = 1000
 FSK16_DELTA_FREQUENCY = 100
 
 DEFAULT_SAMPLING_FREQUENCY = 44100
@@ -59,8 +59,8 @@ class FSK256(Modulator):
 
 
 class FSK16(Modulator):
-    def __init__(self, base_frequency=FSK256_BASE_FREQUENCY,
-                 delta_frequency=FSK256_DELTA_FREQUENCY,
+    def __init__(self, base_frequency=FSK16_BASE_FREQUENCY,
+                 delta_frequency=FSK16_DELTA_FREQUENCY,
                  samp_freq=DEFAULT_SAMPLING_FREQUENCY):
         self._base_frequency = base_frequency
         self._delta_frequency = delta_frequency
