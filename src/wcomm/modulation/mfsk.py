@@ -20,7 +20,7 @@ class FSK256(Modulator):
         return "256-FSK"
 
     def split(self, message):
-        for char in message:
+        for char in message.as_string():
             yield ord(char)
 
     def send_through_channel(self, channel, message, time):
