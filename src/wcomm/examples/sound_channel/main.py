@@ -10,7 +10,7 @@ def main():
     # message = Message("Hello world!")
     message = Message("owowo")
 
-    channel.send(message, 15)
+    channel.send(message, 100)
     channel.send("a", 100)
 
 

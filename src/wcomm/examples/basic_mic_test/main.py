@@ -19,7 +19,6 @@ def main():
             if found:
                 print(f"PREDICTION : {predicted:5} -> {chr(predicted)}")
             found = False
-            continue
         else:
             found = True
             values.append(detection)
