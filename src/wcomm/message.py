@@ -1,4 +1,5 @@
 from wcomm.utils.data_structures import flatten_matrix
+from multipledispatch import dispatch
 import cv2
 
 
@@ -21,6 +22,10 @@ class Message:
 
     def __getitem__(self, key):
         return self.raw_string()[key]
+
+    def __eq__(self, rhs):
+        # Dispatches the call to a different function
+        return _msg_equals(self, rhs)
 
     @classmethod
     def from_binary(cls, content="", header="", *args, **kwargs):
@@ -112,3 +117,18 @@ class Message:
 
     def raw_string(self, only_data=False):
         return self._data if only_data else self._header + self._data
+
+
+@dispatch(Message, Message)
+def _msg_equals(message, rhs):
+    return message._header == rhs._header and message._data == rhs._data
+
+
+@dispatch(Message, str)
+def _msg_equals(message, rhs):
+    return message._header == "" and message._data == rhs
+
+
+@dispatch(Message, object)
+def _msg_equals(message, rhs):
+    return NotImplemented
