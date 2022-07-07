@@ -5,10 +5,13 @@ from wcomm.message import Message
 from time import sleep
 
 
-def main(filename, modulation, source, source_template, channel_type, period):
+def main(filename, modulation, source, source_template, channel_type, period, is_image, image_channel):
     channel = channel_type(modulation())
 
-    message = Message.from_file(filename)
+    if is_image:
+        message = Message.from_image(filename, image_channel)
+    else:
+        message = Message.from_file(filename)
 
     source_coding = source.from_message(message)
     encoded_msg = source_coding.encode(message)
