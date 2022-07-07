@@ -20,6 +20,20 @@ parser.add_argument(
 )
 
 parser.add_argument(
+    "-I", "--is-image",
+    dest="is_image",
+    action="store_true",
+    help="Specify whether to treat the given file as an image or binaries.",
+)
+
+parser.add_argument(
+    "--image-channel",
+    dest="image_channel",
+    default=0,
+    help="Channel of the image to read.",
+)
+
+parser.add_argument(
     "-m", "--modulation",
     dest="modulation_type",
     default="FSK16",
@@ -79,6 +93,8 @@ if args.emitter_filename is not None:
         source_template=args.source_coding_filename,
         channel_type=getattr(channels, args.channel_type),
         period=int(args.period),
+        is_image=args.is_image,
+        image_channel=int(args.image_channel),
     )
 
 elif args.receiver_filename is not None:
