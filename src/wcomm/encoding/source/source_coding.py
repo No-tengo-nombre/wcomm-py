@@ -9,6 +9,11 @@ class SourceCoding(ABC):
     def from_message(cls, message):
         return cls(code=cls.generate_code(message))
 
+    @classmethod
+    def from_file(cls, filename):
+        # TODO: Implement this
+        pass
+
     def update_code(self, message):
         self._code = self.generate_code(message)
 
