@@ -58,7 +58,7 @@ class Message:
         return result
 
     def bit_size(self, only_data=False):
-        return len(self._data) if only_data else len(self._header) + self.bit_size()
+        return len(self._data) if only_data else len(self._header) + len(self._data)
 
     def group(self, num, only_data=False):
         result = []
