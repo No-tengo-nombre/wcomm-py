@@ -3,7 +3,7 @@ import cv2
 
 
 class Message:
-    def __init__(self, content="", header=""):
+    def __init__(self, content="", header="", *args, **kwargs):
         # This turns data into a string of 0's and 1's, whose number of
         # elements is a multiple of 8. This way, every 8 contigous
         # characters represent a char/byte.
@@ -30,7 +30,18 @@ class Message:
         return output
 
     @classmethod
-    def from_raw_image(cls, filename, channel=None, preprocessing=None, *args, **kwargs):
+    def from_file(cls, filename, header_size=0, preprocessing=None, encoding=None, *args, **kwargs):
+        with open(filename, "rb", encoding=encoding) as file:
+            data = file.read()
+
+        if preprocessing is not None:
+            data = preprocessing(data)
+
+        data_binaries = "".join(bin(c)[2:].zfill(8) for c in data)
+        return cls.from_binary(data_binaries[header_size:], data_binaries[:header_size], *args, **kwargs)
+
+    @classmethod
+    def from_image(cls, filename, channel=None, preprocessing=None, *args, **kwargs):
         result = cls(*args, **kwargs)
         
         data = cv2.imread(filename)
@@ -48,9 +59,9 @@ class Message:
             # 32 bits for the number of rows, 32 bits for the number of
             # columns, and 8 bits for the number of channels
             msg_header = (
-                bin(len(channel_data))[:2].zfill(32)
-                + bin(len(channel_data[0]))[:2].zfill(32)
-                + bin(1)[:2].zfill(8)
+                bin(len(channel_data))[2:].zfill(32)
+                + bin(len(channel_data[0]))[2:].zfill(32)
+                + bin(1)[2:].zfill(8)
             )
             flattened_data = flatten_matrix(channel_data)
 
