@@ -1,6 +1,7 @@
 from wcomm.modulation.modulation import Modulator
 from wcomm.utils.log import log
 import numpy as np
+from tqdm import tqdm
 
 
 FSK256_BASE_FREQUENCY = 300
@@ -28,7 +29,7 @@ class FSK256(Modulator):
             yield ord(char)
 
     def send_through_channel(self, channel, message, time):
-        for key in self.split(message):
+        for key in tqdm(self.split(message), "Sending message..."):
             log(f"INFO::SEND CHAR '{chr(key)}' = {key}")
             channel.play(self.calculate_frequency(key), time)
 
@@ -74,7 +75,7 @@ class FSK16(Modulator):
             yield int(b, 2)
 
     def send_through_channel(self, channel, message, time):
-        for key in self.split(message):
+        for key in tqdm(self.split(message), "Sending message..."):
             log(f"INFO::SEND CHAR '{chr(key)}' = {key}")
             channel.play(self.calculate_frequency(key), time)
 
