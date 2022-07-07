@@ -2,6 +2,8 @@ from wcomm.message import Message
 from wcomm.encoding.source.huffman import HuffmanCode
 from wcomm.utils.log import metric_prefix
 from skimage.color import rgb2hsv
+import cv2
+import numpy as np
 
 
 def main():
@@ -20,9 +22,10 @@ def main():
 
 
     # Reading the data in HSV
-    hsv_msg_h = Message.from_raw_image("wcomm/examples/resources/img/img_house.jpeg", 0, rgb2hsv)
-    hsv_msg_s = Message.from_raw_image("wcomm/examples/resources/img/img_house.jpeg", 1, rgb2hsv)
-    hsv_msg_v = Message.from_raw_image("wcomm/examples/resources/img/img_house.jpeg", 2, rgb2hsv)
+    hsv_msg_h = Message.from_raw_image("wcomm/examples/resources/img/img_house.jpeg", 0, lambda data: (255 * rgb2hsv(data)).astype(np.uint8))
+    hsv_msg_s = Message.from_raw_image("wcomm/examples/resources/img/img_house.jpeg", 1, lambda data: (255 * rgb2hsv(data)).astype(np.uint8))
+    hsv_msg_v = Message.from_raw_image("wcomm/examples/resources/img/img_house.jpeg", 2, lambda data: (255 * rgb2hsv(data)).astype(np.uint8))
+
 
     print(f"HSV Before encoding -> {metric_prefix(hsv_msg_h.bit_size() + hsv_msg_s.bit_size() + hsv_msg_v.bit_size(), 'b')}")
 
