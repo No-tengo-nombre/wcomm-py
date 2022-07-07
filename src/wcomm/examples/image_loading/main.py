@@ -29,8 +29,8 @@ def main():
 
     print(f"HSV Before encoding -> {metric_prefix(hsv_msg_h.bit_size() + hsv_msg_s.bit_size() + hsv_msg_v.bit_size(), 'b')}")
 
-    hsv_cd_r = HuffmanCode.from_message(hsv_msg_h)
-    hsv_cd_g = HuffmanCode.from_message(hsv_msg_s)
-    hsv_cd_b = HuffmanCode.from_message(hsv_msg_v)
+    hsv_cd_h = HuffmanCode.from_message(hsv_msg_h)
+    hsv_cd_s = HuffmanCode.from_message(hsv_msg_s)
+    hsv_cd_v = HuffmanCode.from_message(hsv_msg_v)
     
-    print(f"HSV After encoding -> {metric_prefix(hsv_cd_r.encode(hsv_msg_h).bit_size() + hsv_cd_g.encode(hsv_msg_s).bit_size() + hsv_cd_b.encode(hsv_msg_v).bit_size(), 'b')}")
+    print(f"HSV After encoding -> {metric_prefix(hsv_cd_h.encode(hsv_msg_h).bit_size() + hsv_cd_s.encode(hsv_msg_s).bit_size() + hsv_cd_v.encode(hsv_msg_v).bit_size(), 'b')}")
