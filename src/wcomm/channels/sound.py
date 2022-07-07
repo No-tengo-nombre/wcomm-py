@@ -1,7 +1,7 @@
 import sounddevice as sd
 import numpy as np
 from time import sleep
-from wcomm.channel import Channel
+from wcomm.channels.channel import Channel
 from wcomm.utils.log import log
 import winsound
 from tones import SINE_WAVE
@@ -11,6 +11,8 @@ from multipledispatch import dispatch
 from numbers import Number
 
 import pyaudio
+
+# import pygame as pg
 
 
 
@@ -79,6 +81,8 @@ mixer = Mixer(44100, 1)
 mixer.create_track(0, SINE_WAVE)
 generator = ToneGenerator()
 
+# pg_mixer = pg.mixer.init(44100, -16, 1, 512)
+
 
 def set_sine_freq(freq):
     global sine
@@ -105,12 +109,12 @@ class SoundChannel(Channel):
     def play(self, frequency, time=DEFAULT_SOUND_TIME):
         log(f"INFO::PLAY {frequency} Hz , {time} ms\n")
 
-        # set_sine_freq(frequency)
-        # sleep(time / 1000)
+        set_sine_freq(frequency)
+        sleep(time / 1000)
 
-        generator.play(frequency, time / 1000, 1)
-        while generator.is_playing():
-            pass
+        # generator.play(frequency, time / 1000, 1)
+        # while generator.is_playing():
+        #     pass
 
     def start_microphone(self, sample_rate=None, channels=1):
         if sample_rate is None:
@@ -141,7 +145,7 @@ class SoundChannel(Channel):
         raw_data = self.fetch_microphone(blocksize)
         data = np.array([val[0] for val in raw_data])
         base_fn = np.cos(2 * np.pi * frequency * np.arange(blocksize) / self._modulator._sampling_frequency)
-        return abs(np.dot(data, base_fn)) > threshold
+        return abs(np.dot(data, base_fn)) ** 2 > threshold
         # return np.log(abs(np.dot(data, base_fn))) > threshold
         # return data.shape, base_fn.shape
 
