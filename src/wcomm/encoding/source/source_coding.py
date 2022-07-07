@@ -19,7 +19,7 @@ class SourceCoding(ABC):
     @staticmethod
     def generate_frequency_map(message):
         output = SourceCoding.empty_map()
-        for c in message.as_string():
+        for c in message.as_string(True):
             output[ord(c)] += 1
         return output
 

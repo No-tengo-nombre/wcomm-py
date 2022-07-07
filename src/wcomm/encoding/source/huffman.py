@@ -33,14 +33,14 @@ class HuffmanCode(SourceCoding):
 
     def encode(self, message):
         log(f"INFO::H-CODING INPUT IS {metric_prefix(message.bit_size(), 'b')}")
-        output = "".join([self._code[c] for c in message.as_int_array()])
+        output = "".join([self._code[c] for c in message.as_int_array(True)])
         out_msg = Message.from_binary(output)
         log(f"INFO::H-CODING OUTPUT IS {metric_prefix(out_msg.bit_size(), 'b')}")
-        log(f"INFO::REDUCED SIZE BY {(message.bit_size() - out_msg.bit_size()) / message.bit_size():.4f}%")
+        log(f"INFO::REDUCED SIZE BY {(message.bit_size(True) - out_msg.bit_size(True)) / message.bit_size(True):.4f}%")
         return out_msg
 
     def decode(self, message):
-        log(f"INFO::H-DECODING INPUT IS {metric_prefix(message.bit_size(), 'b')}")
+        log(f"INFO::H-DECODING INPUT IS {metric_prefix(message.bit_size(True), 'b')}")
         decode_dict = self.inverted_code()
         output = ""
         temp = ""
@@ -54,7 +54,7 @@ class HuffmanCode(SourceCoding):
                 pass
 
         out_msg = Message(output)
-        log(f"INFO::H-DECODING OUTPUT IS {metric_prefix(out_msg.bit_size(), 'b')}")
+        log(f"INFO::H-DECODING OUTPUT IS {metric_prefix(out_msg.bit_size(True), 'b')}")
         return out_msg
 
     @staticmethod

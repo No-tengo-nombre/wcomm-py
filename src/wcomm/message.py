@@ -57,25 +57,22 @@ class Message:
 
         return result
 
-    def total_bit_size(self):
-        return len(self._header) + self.bit_size()
+    def bit_size(self, only_data=False):
+        return len(self._data) if only_data else len(self._header) + self.bit_size()
 
-    def bit_size(self):
-        return len(self._data)
-
-    def group(self, num):
+    def group(self, num, only_data=False):
         result = []
-        temp = self._data
+        temp = self._data if only_data else self._header + self._data
         while temp != "":
             result.append(temp[:num])
             temp = temp[num:]
         return result
 
-    def as_int_array(self):
-        return [int(c, 2) for c in self.group(8)]
+    def as_int_array(self, only_data=False):
+        return [int(c, 2) for c in self.group(8, only_data)]
 
-    def as_char_array(self):
-        return [chr(int(c, 2)) for c in self.group(8)]
+    def as_char_array(self, only_data=False):
+        return [chr(int(c, 2)) for c in self.group(8, only_data)]
 
-    def as_string(self):
-        return "".join(self.as_char_array())
+    def as_string(self, only_data=False):
+        return "".join(self.as_char_array(only_data))
