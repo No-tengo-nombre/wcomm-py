@@ -26,7 +26,7 @@ class Message:
         return output
 
     @classmethod
-    def from_image(cls, filename, channel=None, preprocessing=None, *args, **kwargs):
+    def from_raw_image(cls, filename, channel=None, preprocessing=None, *args, **kwargs):
         result = cls(*args, **kwargs)
         
         data = cv2.imread(filename)
