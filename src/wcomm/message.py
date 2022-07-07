@@ -19,10 +19,14 @@ class Message:
     def __str__(self):
         return self.as_string()
 
+    def __getitem__(self, key):
+        return self.raw_string()[key]
+
     @classmethod
-    def from_binary(cls, message, *args, **kwargs):
+    def from_binary(cls, content="", header="", *args, **kwargs):
         output = cls(*args, **kwargs)
-        output._data = message
+        output._data = content
+        output._header = header
         return output
 
     @classmethod
@@ -40,13 +44,15 @@ class Message:
             channel_data = data[:, :, channel]
 
             # The header is a set of data that is not compressed, and
-            # contains information about the image
+            # contains information about the image. In this case, it is
+            # 32 bits for the number of rows, 32 bits for the number of
+            # columns, and 8 bits for the number of channels
             msg_header = (
-                bin(len(channel_data))[:2].zfill(32)                    # Number of rows
-                + bin(len(channel_data[0]))[:2].zfill(32)               # Number of columns
-                + bin(1)[:2].zfill(8)                                   # Number of channels
+                bin(len(channel_data))[:2].zfill(32)
+                + bin(len(channel_data[0]))[:2].zfill(32)
+                + bin(1)[:2].zfill(8)
             )
-            flattened_data = flatten_matrix(channel_data)               # Vector of pixel data
+            flattened_data = flatten_matrix(channel_data)
 
             result._header = msg_header
 
@@ -57,16 +63,32 @@ class Message:
 
         return result
 
+    def get_header(self):
+        return "".join([chr(int(c, 2)) for c in self.group_string(self._header, 8)])
+
     def bit_size(self, only_data=False):
         return len(self._data) if only_data else len(self._header) + len(self._data)
 
-    def group(self, num, only_data=False):
+    @staticmethod
+    def group_string(message, num):
         result = []
-        temp = self._data if only_data else self._header + self._data
+        temp = message
         while temp != "":
             result.append(temp[:num])
             temp = temp[num:]
         return result
+
+    def group(self, num, only_data=False):
+        if only_data:
+            return self.group_string(self._data, num)
+        else:
+            return self.group_string(self._header + self._data, num)
+        # result = []
+        # temp = self._data if only_data else self._header + self._data
+        # while temp != "":
+        #     result.append(temp[:num])
+        #     temp = temp[num:]
+        # return result
 
     def as_int_array(self, only_data=False):
         return [int(c, 2) for c in self.group(8, only_data)]
@@ -76,3 +98,6 @@ class Message:
 
     def as_string(self, only_data=False):
         return "".join(self.as_char_array(only_data))
+
+    def raw_string(self, only_data=False):
+        return self._data if only_data else self._header + self._data
