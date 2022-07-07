@@ -55,9 +55,11 @@
 \frametitle{Características de la implementación}
 
 \begin{itemize}
-	\item Desarrollo modular $\rightarrow$ Permite añadir funcionalidades.
+	\item Creado en Python con enfoque en la modularidad $\rightarrow$ Permite añadir funcionalidades fácilmente.
 	\item Modulación $\rightarrow$ Se implementaron 256-FSK y 16-FSK, pero
-	se usó 256-FSK.
+	se usó 16-FSK.
+	\item 256-FSK permite enviar en la mitad de tiempo, pero el alto ancho
+	de banda lo hizo infactible.
 	\item Codificación de fuente $\rightarrow$ Códigos de Huffman.
 	\item No se implementó codificación de canal.
 \end{itemize}
@@ -73,12 +75,23 @@
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=.75\linewidth]{p2-blocks.pdf}
+	\includegraphics[width=.5\linewidth]{p2-blocks.pdf}
 \end{figure}
 
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}
+
+\frametitle{Resultados}
+
 \begin{itemize}
-	\item Data $\rightarrow$ Texto o imágenes (la diferencia es el preprocesado).
-	\item 
+	\item La detección no se logró implementar.
+	\item El límite de tiempo para las imágenes no se cumplió.
+	\item La compresión no es lo suficientemente buena para reducir
+	drásticamente los tamaños de las imágenes.
 \end{itemize}
 
 \end{frame}
