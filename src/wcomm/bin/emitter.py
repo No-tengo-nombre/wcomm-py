@@ -5,7 +5,7 @@ from wcomm.message import Message
 from time import sleep
 
 
-def main(filename, modulation, source, source_template, channel_type):
+def main(filename, modulation, source, source_template, channel_type, period):
     channel = channel_type(modulation())
 
     message = Message.from_file(filename)
@@ -13,6 +13,4 @@ def main(filename, modulation, source, source_template, channel_type):
     source_coding = source.from_message(message)
     encoded_msg = source_coding.encode(message)
 
-    channel.send(message, 100)
-    channel.send(Message.from_binary("0"), 1000)
-    channel.send(encoded_msg, 100)
+    channel.send(encoded_msg, period)
