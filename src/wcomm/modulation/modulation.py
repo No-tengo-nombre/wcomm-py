@@ -14,9 +14,6 @@ class Modulator(ABC):
     def send_through_channel(self, channel, message, time): pass
 
     @abstractmethod
-    def calculate_frequency(self, key): pass
-
-    @abstractmethod
     def detect(self, data, samp_freq): pass
 
     @abstractmethod
