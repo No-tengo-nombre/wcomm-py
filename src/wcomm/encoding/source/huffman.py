@@ -36,6 +36,7 @@ class HuffmanCode(SourceCoding):
         output = "".join([self._code[c] for c in message.as_int_array()])
         out_msg = Message.from_binary(output)
         log(f"INFO::H-CODING OUTPUT IS {metric_prefix(out_msg.bit_size(), 'b')}")
+        log(f"INFO::REDUCED SIZE BY {(message.bit_size() - out_msg.bit_size()) / message.bit_size():.4f}%")
         return out_msg
 
     def decode(self, message):
