@@ -1,6 +1,7 @@
 import argparse
 import importlib
 from wcomm import WCOMM_CONFIG
+from wcomm.bin import emitter, receiver
 
 parser = argparse.ArgumentParser(description="Run the WComm package.")
 
@@ -46,7 +47,13 @@ args = parser.parse_args()
 if args.verbose:
     WCOMM_CONFIG["verbose"] = True
 
-if args.example_name is not None:
+if args.emitter_filename is not None:
+    emitter.main(args.emitter_filename)
+
+elif args.receiver_filename is not None:
+    receiver.main(args.receiver_filename)
+
+elif args.example_name is not None:
     example = importlib.import_module(
         f"wcomm.examples.{args.example_name}.main")
     example.main()
