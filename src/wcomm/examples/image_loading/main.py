@@ -7,9 +7,9 @@ import numpy as np
 
 def main():
     # Reading the data in RGB
-    rgb_msg_r = Message.from_raw_image("wcomm/examples/resources/img/img_house.jpeg", 0)
-    rgb_msg_g = Message.from_raw_image("wcomm/examples/resources/img/img_house.jpeg", 1)
-    rgb_msg_b = Message.from_raw_image("wcomm/examples/resources/img/img_house.jpeg", 2)
+    rgb_msg_r = Message.from_image("wcomm/examples/resources/img/img_house.jpeg", 0)
+    rgb_msg_g = Message.from_image("wcomm/examples/resources/img/img_house.jpeg", 1)
+    rgb_msg_b = Message.from_image("wcomm/examples/resources/img/img_house.jpeg", 2)
 
     print(f"RGB Before encoding -> {metric_prefix(rgb_msg_r.bit_size() + rgb_msg_g.bit_size() + rgb_msg_b.bit_size(), 'b')}")
 
@@ -21,9 +21,9 @@ def main():
 
 
     # Reading the data in HSV
-    hsv_msg_h = Message.from_raw_image("wcomm/examples/resources/img/img_house.jpeg", 0, lambda data: (255 * rgb2hsv(data)).astype(np.uint8))
-    hsv_msg_s = Message.from_raw_image("wcomm/examples/resources/img/img_house.jpeg", 1, lambda data: (255 * rgb2hsv(data)).astype(np.uint8))
-    hsv_msg_v = Message.from_raw_image("wcomm/examples/resources/img/img_house.jpeg", 2, lambda data: (255 * rgb2hsv(data)).astype(np.uint8))
+    hsv_msg_h = Message.from_image("wcomm/examples/resources/img/img_house.jpeg", 0, lambda data: (255 * rgb2hsv(data)).astype(np.uint8))
+    hsv_msg_s = Message.from_image("wcomm/examples/resources/img/img_house.jpeg", 1, lambda data: (255 * rgb2hsv(data)).astype(np.uint8))
+    hsv_msg_v = Message.from_image("wcomm/examples/resources/img/img_house.jpeg", 2, lambda data: (255 * rgb2hsv(data)).astype(np.uint8))
 
 
     print(f"HSV Before encoding -> {metric_prefix(hsv_msg_h.bit_size() + hsv_msg_s.bit_size() + hsv_msg_v.bit_size(), 'b')}")
@@ -36,9 +36,9 @@ def main():
 
 
     # Reading the data in YUV
-    yuv_msg_y = Message.from_raw_image("wcomm/examples/resources/img/img_house.jpeg", 0, lambda data: (255 * rgb2yuv(data)).astype(np.uint8))
-    yuv_msg_u = Message.from_raw_image("wcomm/examples/resources/img/img_house.jpeg", 1, lambda data: (255 * rgb2yuv(data)).astype(np.uint8))
-    yuv_msg_v = Message.from_raw_image("wcomm/examples/resources/img/img_house.jpeg", 2, lambda data: (255 * rgb2yuv(data)).astype(np.uint8))
+    yuv_msg_y = Message.from_image("wcomm/examples/resources/img/img_house.jpeg", 0, lambda data: (255 * rgb2yuv(data)).astype(np.uint8))
+    yuv_msg_u = Message.from_image("wcomm/examples/resources/img/img_house.jpeg", 1, lambda data: (255 * rgb2yuv(data)).astype(np.uint8))
+    yuv_msg_v = Message.from_image("wcomm/examples/resources/img/img_house.jpeg", 2, lambda data: (255 * rgb2yuv(data)).astype(np.uint8))
 
 
     print(f"YUV Before encoding -> {metric_prefix(yuv_msg_y.bit_size() + yuv_msg_u.bit_size() + yuv_msg_v.bit_size(), 'b')}")
