@@ -1,5 +1,5 @@
 class Message:
-    def __init__(self, content):
+    def __init__(self, content=""):
         # This turns data into a string of 0's and 1's, whose number of
         # elements is a multiple of 8. This way, every 8 contigous
         # characters represent a char.
@@ -16,9 +16,12 @@ class Message:
 
     @classmethod
     def from_binary(cls, message):
-        output = cls("")
+        output = cls()
         output._data = message
         return output
+
+    def bit_size(self):
+        return len(self._data)
 
     def group(self, num):
         result = []
