@@ -7,11 +7,10 @@ def main():
     mod_type = FSK256(100, 30)
     channel = SoundChannel(mod_type)
 
-    # message = Message("Hello world!")
-    message = Message("owowo")
+    message = Message("Hello world!")
 
     channel.send(message, 100)
-    channel.send("a", 100)
+    channel.send(Message("a"), 100)
 
 
 if __name__ == "__main__":
