@@ -34,16 +34,22 @@ class HuffmanCode(SourceCoding):
     def encode(self, message):
         log(f"INFO::H-CODING INPUT IS {metric_prefix(message.bit_size(), 'b')}")
         output = "".join([self._code[c] for c in message.as_int_array(True)])
-        out_msg = Message.from_binary(output)
+        out_msg = Message.from_binary(output, header=message._header)
         log(f"INFO::H-CODING OUTPUT IS {metric_prefix(out_msg.bit_size(), 'b')}")
         log(f"INFO::REDUCED SIZE BY {100 * (message.bit_size(True) - out_msg.bit_size(True)) / message.bit_size(True):.4f}%")
         return out_msg
 
-    def decode(self, message):
-        log(f"INFO::H-DECODING INPUT IS {metric_prefix(message.bit_size(True), 'b')}")
+    def encode_str(self, message):
+        return self.encode(Message(message))
+
+    def decode(self, encoded_message, header_size=0):
+        log(f"INFO::H-DECODING INPUT IS {metric_prefix(encoded_message.bit_size(True), 'b')}")
         decode_dict = self.inverted_code()
         output = ""
         temp = ""
+
+        data = encoded_message._data
+        message = Message.from_binary(data[header_size:], encoded_message._header + data[:header_size])
 
         for b in message:
             temp += b
@@ -53,9 +59,12 @@ class HuffmanCode(SourceCoding):
             except KeyError:
                 pass
 
-        out_msg = Message(output)
+        out_msg = Message(output, message.get_header())
         log(f"INFO::H-DECODING OUTPUT IS {metric_prefix(out_msg.bit_size(True), 'b')}")
         return out_msg
+
+    def decode_str(self, message):
+        return self.decode(Message(message))
 
     @staticmethod
     def __make_tree(freq_map_items):
