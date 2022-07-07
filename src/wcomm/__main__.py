@@ -47,6 +47,13 @@ parser.add_argument(
 )
 
 parser.add_argument(
+    "-t", "--time",
+    dest="period",
+    default=100,
+    help="Specify the time (ms) that each emission should take.",
+)
+
+parser.add_argument(
     "-e", "--example",
     dest="example_name",
     help="Run an example.",
@@ -71,6 +78,7 @@ if args.emitter_filename is not None:
         source=getattr(source, args.source_coding_type),
         source_template=args.source_coding_filename,
         channel_type=getattr(channels, args.channel_type),
+        period=int(args.period),
     )
 
 elif args.receiver_filename is not None:
