@@ -99,12 +99,6 @@ class Message:
             return self.group_string(self._data, num)
         else:
             return self.group_string(self._header + self._data, num)
-        # result = []
-        # temp = self._data if only_data else self._header + self._data
-        # while temp != "":
-        #     result.append(temp[:num])
-        #     temp = temp[num:]
-        # return result
 
     def as_int_array(self, only_data=False):
         return [int(c, 2) for c in self.group(8, only_data)]
