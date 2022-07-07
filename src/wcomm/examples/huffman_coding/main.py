@@ -3,6 +3,12 @@ from wcomm.encoding.source.huffman import HuffmanCode
 
 
 def main():
+    small_msg = Message("""Hello world!""")
+    encoder = HuffmanCode.from_message(small_msg)
+    encoded_small_msg = encoder.encode(small_msg)
+    decoded_small_msg = encoder.decode(encoded_small_msg)
+    print(f"{small_msg} -> ENCODED : {encoded_small_msg}   DECODED : {decoded_small_msg}")
+    
     # This message should code the 'p' char as the highest probability
     # one, probably followed by 'P'
     message1 = Message("""Peter Piper picked a peck of pickled peppers
@@ -37,18 +43,18 @@ As a woodchuck would if a woodchuck could chuck wood""")
     encoded_msg2_1 = source_coding1.encode(message2)
     encoded_msg1_2 = source_coding2.encode(message1)
     encoded_msg2_2 = source_coding2.encode(message2)
-    print(f"Message 1 encoded from message 1 -> {encoded_msg1_1}")
-    print(f"Message 2 encoded from message 1 -> {encoded_msg2_1}")
-    print(f"Message 1 encoded from message 2 -> {encoded_msg1_2}")
-    print(f"Message 2 encoded from message 2 -> {encoded_msg2_2}")
+    print(f"Message 1 encoded from message 1 ===\n{encoded_msg1_1}\n")
+    print(f"Message 2 encoded from message 1 ===\n{encoded_msg2_1}\n")
+    print(f"Message 1 encoded from message 2 ===\n{encoded_msg1_2}\n")
+    print(f"Message 2 encoded from message 2 ===\n{encoded_msg2_2}\n")
     decoded_msg1_1 = source_coding1.decode(encoded_msg1_1)
     decoded_msg2_1 = source_coding1.decode(encoded_msg2_1)
     decoded_msg1_2 = source_coding2.decode(encoded_msg1_2)
     decoded_msg2_2 = source_coding2.decode(encoded_msg2_2)
-    print(f"Message 1 decoded from message 1 -> {encoded_msg1_1}")
-    print(f"Message 2 decoded from message 1 -> {encoded_msg2_1}")
-    print(f"Message 1 decoded from message 2 -> {encoded_msg1_2}")
-    print(f"Message 2 decoded from message 2 -> {encoded_msg2_2}")
+    print(f"Message 1 decoded from message 1 ===\n{decoded_msg1_1}\n")
+    print(f"Message 2 decoded from message 1 ===\n{decoded_msg2_1}\n")
+    print(f"Message 1 decoded from message 2 ===\n{decoded_msg1_2}\n")
+    print(f"Message 2 decoded from message 2 ===\n{decoded_msg2_2}\n")
 
 
 if __name__ == "__main__":
