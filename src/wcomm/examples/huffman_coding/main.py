@@ -3,11 +3,14 @@ from wcomm.encoding.source.huffman import HuffmanCode
 
 
 def main():
-    small_msg = Message("""Hello world!""")
+    small_msg = Message("Hello world!", "HEADER")
     encoder = HuffmanCode.from_message(small_msg)
     encoded_small_msg = encoder.encode(small_msg)
+    headerless_encoded = Message.from_binary(encoded_small_msg._header + encoded_small_msg._data)
     decoded_small_msg = encoder.decode(encoded_small_msg)
+    headerless_decoded = encoder.decode(headerless_encoded, 6 * 8)
     print(f"{small_msg} -> ENCODED : {encoded_small_msg}   DECODED : {decoded_small_msg}")
+    print(f"{small_msg} -> ENCODED : {headerless_encoded}   DECODED : {headerless_decoded}")
     
     # This message should code the 'p' char as the highest probability
     # one, probably followed by 'P'
