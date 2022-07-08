@@ -11,10 +11,10 @@ Also, the following types of baseband modulations are implemented:
 ## Main program
 In order to run the main program, starting from the base directory (`wcomm-py`) navigate to the `src` directory and run
 ```
-py -m wcomm [-E/-R] <FILENAME> <PARAMETERS>
+py -m wcomm [-T/-R] <FILENAME> <PARAMETERS>
 ```
 
-In order to run as emitter, use the `-E` flag, where `<FILENAME>` will
+In order to run as transmitter, use the `-T` flag, where `<FILENAME>` will
 be the file that is sent; for the receiver, use the `-R` flag, where
 `<FILENAME>` will be the output file.
 
