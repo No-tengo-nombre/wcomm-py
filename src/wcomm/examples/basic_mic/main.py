@@ -13,14 +13,19 @@ def main():
     found = False
 
     while True:
+        # detection = channel.detect(441)
+        # if detection == -1:
+        #     values = []
+        #     if found:
+        #         print(f"PREDICTION : {predicted:5} -> {chr(predicted)}")
+        #     found = False
+        # else:
+        #     found = True
+        #     values.append(detection)
+        #     predicted = int(np.round(np.mean(values)))
+        #     # print(f"{detection:5} -> {chr(detection):5}")
         detection = channel.detect(441)
         if detection == -1:
-            values = []
-            if found:
-                print(f"PREDICTION : {predicted:5} -> {chr(predicted)}")
-            found = False
+            print("NONE")
         else:
-            found = True
-            values.append(detection)
-            predicted = int(np.round(np.mean(values)))
-            # print(f"{detection:5} -> {chr(detection):5}")
+            print(f"{detection:5} -> {chr(detection):5}")

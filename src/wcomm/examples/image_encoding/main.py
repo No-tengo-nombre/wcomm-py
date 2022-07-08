@@ -4,12 +4,12 @@ from wcomm.encoding.source.huffman import HuffmanCode
 
 def main():
     images = [
-        "img_airplane.png",
-        "img_baboon.png",
+        # "img_airplane.png",
+        # "img_baboon.png",
         "img_house.jpeg",
-        "img_parrots.jpeg",
-        "img_peppers.jpeg",
-        "img_sailboat.png",
+        # "img_parrots.jpeg",
+        # "img_peppers.jpeg",
+        # "img_sailboat.png",
     ]
 
     img_r = Message.from_image("wcomm/examples/resources/img/img_house.jpeg", 0)
@@ -33,9 +33,9 @@ def main():
         encoded_g = huffman_g.encode(img_g)
         encoded_b = huffman_b.encode(img_b)
 
-        print(f"<{img_name}> R:> {img_r.bit_size()} -> {encoded_r.bit_size()}    <=>    {100 * (img_r.bit_size() - encoded_r.bit_size()) / img_r.bit_size():.2f}%")
-        print(f"<{img_name}> G:> {img_g.bit_size()} -> {encoded_g.bit_size()}    <=>    {100 * (img_g.bit_size() - encoded_g.bit_size()) / img_g.bit_size():.2f}%")
-        print(f"<{img_name}> B:> {img_b.bit_size()} -> {encoded_b.bit_size()}    <=>    {100 * (img_b.bit_size() - encoded_b.bit_size()) / img_b.bit_size():.2f}%")
+        print(f"<{img_name}> R:> {img_r.bit_size()} b -> {encoded_r.bit_size()} b    <=>    {100 * (img_r.bit_size() - encoded_r.bit_size()) / img_r.bit_size():.2f}%")
+        print(f"<{img_name}> G:> {img_g.bit_size()} b -> {encoded_g.bit_size()} b    <=>    {100 * (img_g.bit_size() - encoded_g.bit_size()) / img_g.bit_size():.2f}%")
+        print(f"<{img_name}> B:> {img_b.bit_size()} b -> {encoded_b.bit_size()} b    <=>    {100 * (img_b.bit_size() - encoded_b.bit_size()) / img_b.bit_size():.2f}%")
 
         decoded_r = huffman_r.decode(encoded_r)
         decoded_g = huffman_g.decode(encoded_g)
