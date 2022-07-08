@@ -36,33 +36,14 @@
 
 \begin{frame}
 
-\LARGE EL4112 Proyecto 2 \\
-\large Cristóbal Allendes
+	\LARGE EL4112 Proyecto 2 \\
+	\large Cristóbal Allendes
 
-\begin{tikzpicture}[overlay,remember picture]
-\node[left=0.1\linewidth] at (current page.-23){
-    \includegraphics[width=4cm]{logos/die}
-};
-\end{tikzpicture}
-
-\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\begin{frame}
-
-\frametitle{Características de la implementación}
-
-\begin{itemize}
-	\item Creado en Python con enfoque en la modularidad $\rightarrow$ Permite añadir funcionalidades fácilmente.
-	\item Modulación $\rightarrow$ Se implementaron 256-FSK y 16-FSK, pero
-	se usó 16-FSK.
-	\item 256-FSK permite enviar en la mitad de tiempo, pero el alto ancho
-	de banda lo hizo infactible.
-	\item Codificación de fuente $\rightarrow$ Códigos de Huffman.
-	\item No se implementó codificación de canal.
-\end{itemize}
+	\begin{tikzpicture}[overlay,remember picture]
+		\node[left=0.1\linewidth] at (current page.-23){
+			\includegraphics[width=4cm]{logos/die}
+		};
+	\end{tikzpicture}
 
 \end{frame}
 
@@ -71,12 +52,19 @@
 
 \begin{frame}
 
-\frametitle{Diagrama de bloques}
+	\frametitle{Características de la implementación}
 
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=.5\linewidth]{p2-blocks.pdf}
-\end{figure}
+	\begin{itemize}
+		\item Creado en Python con enfoque en la modularidad $\rightarrow$ Permite añadir funcionalidades fácilmente.
+		\item Modulación $\rightarrow$ Se implementaron 256-FSK y 16-FSK, pero
+		      se usó 16-FSK.
+		\item Tiempo para cada paquete de 4 bits es 20 ms $\rightarrow$ Tasa de transmisión teórica
+		      \begin{equation*}
+			      \text{4 bit / 20 ms = 200 bit/s}
+		      \end{equation*}
+		\item Codificación de fuente $\rightarrow$ Códigos de Huffman.
+		\item No se implementó codificación de canal.
+	\end{itemize}
 
 \end{frame}
 
@@ -85,14 +73,76 @@
 
 \begin{frame}
 
-\frametitle{Resultados}
+	\frametitle{Características de la implementación}
 
-\begin{itemize}
-	\item La detección no se logró implementar.
-	\item El límite de tiempo para las imágenes no se cumplió.
-	\item La compresión no es lo suficientemente buena para reducir
-	drásticamente los tamaños de las imágenes.
-\end{itemize}
+	\begin{itemize}
+		\item Las imágenes son enviadas en formato YUV.
+		      \begin{itemize}
+			      \item Cada canal se envía en un canal de frecuencia distinto.
+			      \item Se añade otro canal para el texto.
+		      \end{itemize}
+		\item La multiplexación en frecuencia se implementó con multithreading.
+		      \begin{itemize}
+			      \item Cada canal de sonido se ejecuta en un thread distinto.
+		      \end{itemize}
+	\end{itemize}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}
+
+	\frametitle{Diagrama de bloques}
+
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=.9\linewidth]{p2-blocks.pdf}
+	\end{figure}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}
+
+	\frametitle{Resultados}
+
+	\begin{itemize}
+		\item La detección no se logró implementar.
+		\item La compresión no es lo suficientemente buena para reducir
+		      drásticamente los tamaños de las imágenes.
+		\item 256-FSK requiere mucho ancho de banda y 16-FSK es muy lenta.
+		\item El límite de tiempo para las imágenes no se cumplió.
+		\item Sí se logró:
+		      \begin{itemize}
+			      \item Leer y escribir datos, ya sea como archivos binarios o imágenes
+			            decodificadas.
+			      \item Implementar codificación y decodificación de Huffman.
+			      \item Implementar efectivamente ambos tipos de modulación.
+		      \end{itemize}
+	\end{itemize}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}
+
+	\frametitle{Resultados}
+
+	\begin{itemize}
+		\item En la práctica se enviaban 32 paquetes de 4 bits por segundo
+		      $\rightarrow$ Tasa de transmisión real
+		      \begin{equation*}
+			      32 \cdot \text{4 bit / 1 s = 128 bit/s}
+		      \end{equation*}
+		\item Se logró implementar correctamente la multiplexación en
+		      frecuencia para cada canal.
+	\end{itemize}
 
 \end{frame}
 
