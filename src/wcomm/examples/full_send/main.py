@@ -3,6 +3,8 @@ from wcomm.modulation import FSK16
 from wcomm.encoding.source import HuffmanCode
 from wcomm.channels import SoundChannel
 from threading import Thread
+from skimage.color import rgb2yuv
+import numpy as np
 
 
 PERIOD = 20
@@ -20,35 +22,39 @@ def main():
     channel3 = SoundChannel(mod3)
     channel4 = SoundChannel(mod4)
 
-    msg_r = Message.from_image("wcomm/resources/img/img_house.jpeg", 0)
-    msg_g = Message.from_image("wcomm/resources/img/img_house.jpeg", 1)
-    msg_b = Message.from_image("wcomm/resources/img/img_house.jpeg", 2)
+    msg_y = Message.from_image("wcomm/resources/img/img_house.jpeg",
+                               0, lambda data: (255 * rgb2yuv(data)).astype(np.uint8))
+    msg_u = Message.from_image("wcomm/resources/img/img_house.jpeg",
+                               1, lambda data: (255 * rgb2yuv(data)).astype(np.uint8))
+    msg_v = Message.from_image("wcomm/resources/img/img_house.jpeg",
+                               2, lambda data: (255 * rgb2yuv(data)).astype(np.uint8))
     msg_text = Message.from_file("wcomm/resources/binaries/project2")
 
-    source_r = HuffmanCode.from_message(msg_r)
-    source_g = HuffmanCode.from_message(msg_g)
-    source_b = HuffmanCode.from_message(msg_b)
+    source_y = HuffmanCode.from_message(msg_y)
+    source_u = HuffmanCode.from_message(msg_u)
+    source_v = HuffmanCode.from_message(msg_v)
     source_text = HuffmanCode.from_message(msg_text)
-    encoded_r = source_r.encode(msg_r)
-    encoded_g = source_g.encode(msg_g)
-    encoded_b = source_b.encode(msg_b)
+    encoded_y = source_y.encode(msg_y)
+    encoded_u = source_u.encode(msg_u)
+    encoded_v = source_v.encode(msg_v)
     encoded_text = source_text.encode(msg_text)
 
     # Use multithreading to send simultaneously
-    thread_r = Thread(target=send, args=(channel2, encoded_r, PERIOD))
-    thread_g = Thread(target=send, args=(channel3, encoded_g, PERIOD))
-    thread_b = Thread(target=send, args=(channel4, encoded_b, PERIOD))
+    thread_y = Thread(target=send, args=(channel2, encoded_y, PERIOD))
+    thread_u = Thread(target=send, args=(channel3, encoded_u, PERIOD))
+    thread_v = Thread(target=send, args=(channel4, encoded_v, PERIOD))
     thread_text = Thread(target=send, args=(channel1, encoded_text, PERIOD))
 
-    thread_r.start()
-    thread_g.start()
-    thread_b.start()
+    thread_y.start()
+    thread_u.start()
+    thread_v.start()
     thread_text.start()
 
-    thread_r.join()
-    thread_g.join()
-    thread_b.join()
+    thread_y.join()
+    thread_u.join()
+    thread_v.join()
     thread_text.join()
+
 
 def send(channel, message, period):
     channel.send(message, period)
