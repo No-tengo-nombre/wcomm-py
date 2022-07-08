@@ -2,15 +2,15 @@ import argparse
 import importlib
 from wcomm import WCOMM_CONFIG
 from wcomm import modulation, channels
-from wcomm.bin import emitter, receiver
+from wcomm.bin import receiver, transmitter
 from wcomm.encoding import channel, source
 
 parser = argparse.ArgumentParser(description="Run the WComm package.")
 
 parser.add_argument(
-    "-E", "--emitter",
-    dest="emitter_filename",
-    help="Run the emitter application with the given configuration.",
+    "-T", "--transmitter",
+    dest="transmitter_filename",
+    help="Run the transmitter application with the given configuration.",
 )
 
 parser.add_argument(
@@ -85,9 +85,9 @@ args = parser.parse_args()
 if args.verbose:
     WCOMM_CONFIG["verbose"] = True
 
-if args.emitter_filename is not None:
-    emitter.main(
-        filename=args.emitter_filename,
+if args.transmitter_filename is not None:
+    transmitter.main(
+        filename=args.transmitter_filename,
         modulation=getattr(modulation, args.modulation_type),
         source=getattr(source, args.source_coding_type),
         source_template=args.source_coding_filename,
