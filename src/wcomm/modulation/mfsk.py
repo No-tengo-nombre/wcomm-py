@@ -56,7 +56,6 @@ class FSK256(Modulator):
         # as the number of points is sufficiently large
         candidate = np.argmax(self.get_base_functions(len(data)) @ data)
         return candidate if candidate >= threshold else -1
-        # return np.argmax(self.get_base_functions(len(data)) @ data)
 
     def listen(self, frequency): pass
 
@@ -105,6 +104,5 @@ class FSK16(Modulator):
         # as the number of points is sufficiently large
         candidate = np.argmax(self.get_base_functions(len(data)) @ data)
         return candidate if candidate >= threshold else -1
-        # return np.argmax(self.get_base_functions(len(data)) @ data)
 
     def listen(self, frequency): pass
