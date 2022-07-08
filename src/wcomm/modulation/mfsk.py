@@ -22,13 +22,15 @@ class FSK256(Modulator):
         self._sampling_frequency = samp_freq
 
     def get_name(self):
-        return "256-FSK"
+        return "256FSK"
 
     def split(self, message):
         for char in message.as_string():
             yield ord(char)
 
-    def send_through_channel(self, channel, message, time):
+    def send_through_channel(self, channel, message, time, send_header=True):
+        if send_header:
+            self.send_name(channel, time)
         for key in tqdm(self.split(message), "Sending message..."):
             log(f"INFO::SEND CHAR '{chr(key)}' = {key}")
             channel.play(self.calculate_frequency(key), time)
@@ -68,13 +70,16 @@ class FSK16(Modulator):
         self._sampling_frequency = samp_freq
 
     def get_name(self):
-        return "16-FSK"
+        return "16FSK"
 
     def split(self, message):
         for b in message.group(4):
             yield int(b, 2)
 
-    def send_through_channel(self, channel, message, time):
+    def send_through_channel(self, channel, message, time, send_header=True):
+        if send_header:
+            self.send_name(channel, time)
+
         for key in tqdm(self.split(message), "Sending message..."):
             log(f"INFO::SEND CHAR '{chr(key)}' = {key}")
             channel.play(self.calculate_frequency(key), time)
