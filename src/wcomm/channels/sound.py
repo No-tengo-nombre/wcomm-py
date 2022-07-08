@@ -71,8 +71,6 @@ class SoundChannel(Channel):
         data = np.array([val[0] for val in raw_data])
         base_fn = np.cos(2 * np.pi * frequency * np.arange(blocksize) / self._modulator._sampling_frequency)
         return abs(np.dot(data, base_fn)) ** 2 > threshold
-        # return np.log(abs(np.dot(data, base_fn))) > threshold
-        # return data.shape, base_fn.shape
 
     @dispatch(object)
     def listen(self, frequencies, threshold=DEFAULT_THRESHOLD, blocksize=DEFAULT_BLOCKSIZE):
