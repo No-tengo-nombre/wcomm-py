@@ -10,6 +10,9 @@ FSK256_DELTA_FREQUENCY = 50
 FSK16_BASE_FREQUENCY = 1000
 FSK16_DELTA_FREQUENCY = 100
 
+MFSK_BASE_FREQUENCY = 300
+MFSK_DELTA_FREQUENCY = 100
+
 DEFAULT_SAMPLING_FREQUENCY = 44100
 
 
@@ -93,6 +96,55 @@ class FSK16(Modulator):
             np.cos(2 * np.pi * self.calculate_frequency(k) *
                    np.arange(num) / self._sampling_frequency)
             for k in range(16)
+        ])
+
+    def calculate_frequency(self, key):
+        return self._base_frequency + key * self._delta_frequency
+
+    def detect(self, data, threshold):
+        """Returns the index, starting from zero, of the detected symbol."""
+        # For out of phase signals, this method throws good results as long
+        # as the number of points is sufficiently large
+        candidate = np.argmax(self.get_base_functions(len(data)) @ data)
+        return candidate if candidate >= threshold else -1
+
+    def listen(self, frequency): pass
+
+
+class MFSK(Modulator):
+    def __init__(self, size, base_frequency=MFSK_BASE_FREQUENCY,
+                 delta_frequency=MFSK_DELTA_FREQUENCY,
+                 samp_freq=DEFAULT_SAMPLING_FREQUENCY):
+        self._size = size
+        self._base_frequency = base_frequency
+        self._delta_frequency = delta_frequency
+        self._sampling_frequency = samp_freq
+
+    def get_name(self):
+        return f"{size}FSK"
+
+    def split(self, message):
+        for b in message.group(int(np.log2(self._size))):
+            yield int(b, 2)
+
+    def send_through_channel(self, channel, message, time, send_header=True):
+        if send_header:
+            self.send_name(channel, time)
+
+        for key in tqdm(self.split(message), "Sending message..."):
+            log(f"INFO::SEND CHAR '{chr(key)}' = {key}")
+            channel.play(self.calculate_frequency(key), time)
+
+    def get_base_functions(self, num):
+        f"""Returns a matrix with {self._size} rows, each corresponding to a base
+        function, and `num` columns, each corresponding to a data point.
+        """
+        # This operation basically applies a DFT to the data, and chooses
+        # the row with the highest Fourier coefficient
+        return np.array([
+            np.cos(2 * np.pi * self.calculate_frequency(k) *
+                   np.arange(num) / self._sampling_frequency)
+            for k in range(self._size)
         ])
 
     def calculate_frequency(self, key):
