@@ -25,21 +25,30 @@ def set_sine_freq(freq):
         return sine
 
 
+def stop_sine():
+    global sine
+    sine.stop()
+    sine = None
+
+
 class SoundChannel(Channel):
     def __init__(self, modulator):
         log(f"INFO::SETTING MODULATION -> {modulator.get_name()}")
         self._modulator = modulator
         self._mic_source = None
 
-    def send(self, message, time=DEFAULT_SOUND_TIME):
+    def send(self, message, time=DEFAULT_SOUND_TIME, send_header=True):
         log(f"INFO::SEND MESSAGE \"{message}\"")
-        self._modulator.send_through_channel(self, message, time)
+        self._modulator.send_through_channel(self, message, time, send_header)
 
     def play(self, frequency, time=DEFAULT_SOUND_TIME):
         log(f"INFO::PLAY {frequency} Hz , {time} ms\n")
 
         set_sine_freq(frequency)
         sleep(time / 1000)
+
+    def stop(self):
+        stop_sine()
 
     def start_microphone(self, sample_rate=None, channels=1):
         if sample_rate is None:
