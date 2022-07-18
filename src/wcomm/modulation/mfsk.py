@@ -121,7 +121,7 @@ class MFSK(Modulator):
         self._sampling_frequency = samp_freq
 
     def get_name(self):
-        return f"{size}FSK"
+        return f"{self._size}FSK"
 
     def split(self, message):
         for b in message.group(int(np.log2(self._size))):
@@ -136,7 +136,7 @@ class MFSK(Modulator):
             channel.play(self.calculate_frequency(key), time)
 
     def get_base_functions(self, num):
-        f"""Returns a matrix with {self._size} rows, each corresponding to a base
+        """Returns a matrix with M rows, each corresponding to a base
         function, and `num` columns, each corresponding to a data point.
         """
         # This operation basically applies a DFT to the data, and chooses
