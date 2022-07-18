@@ -1,5 +1,5 @@
 from wcomm.message import Message
-from wcomm.modulation import FSK16
+from wcomm.modulation import FSK16, MFSK
 from wcomm.encoding.source import HuffmanCode
 from wcomm.channels import SoundChannel
 from threading import Thread
@@ -13,10 +13,10 @@ BASES = [500 + DELTA_BASES * i for i in range(4)]
 
 
 def main():
-    mod1 = FSK16(BASES[0], 100)
-    mod2 = FSK16(BASES[1], 100)
-    mod3 = FSK16(BASES[2], 100)
-    mod4 = FSK16(BASES[3], 100)
+    mod1 = MFSK(16, BASES[0], 100)
+    mod2 = MFSK(16, BASES[1], 100)
+    mod3 = MFSK(16, BASES[2], 100)
+    mod4 = MFSK(16, BASES[3], 100)
     channel1 = SoundChannel(mod1)
     channel2 = SoundChannel(mod2)
     channel3 = SoundChannel(mod3)
